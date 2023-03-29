@@ -115,65 +115,69 @@ export default function App() {
     label: '',
   })
 
-  const [addOn, setAddOn] = useState(false)
-  const [page, setPage] = useState(0)
-
   const orderIceCream = () => {
-    // print console log of all icecream ordered along with its corresponding addons IF ANY
+  const[selectFlavours, setSelectFlavours] = useState([]);
+  const[selectAddOns, setSelectAddOns] = useState([]);
 
-    console.log("YAY");
-  };
-  console.log(formData)
-  const checkBox = (e) => {
-    // e.preventDefault();
-    setAddOn(true);
-    setFormData({...formData, label:e.target.value})
+  const handleFlavourChange = (e) => {
+    const flavourId = parseInt(e.target.value);
+    const isSelected = e.target.checked;
+  
+  if (isSelected) {
+    setSelectedFlavours([...selectFlavours, flavourId]);
+  } else {
+    setSelectFlavours(selectFlavours.filter(id => id !== flavourId));
   }
-
-  const PageDisplay = () => {
-    if (page===0) {
-      return <IcecreamOrder formData={formData} setFormData={setFormData} iceCreamData={iceCreamData}/>
-    }
-  }
-  const change = (e) => {
-    e.preventDefault();
-    setPage(page+1)
-  }
-
-    const change2 = (e) => {
-      e.preventDefault();
-      setPage(page-1)}
-    // if (e.target.value === 'next') {
-    //   setPage(page + 1);
-    // } else if (e.target.value === 'previous') {
-    //   setPage(page - 1);
-    // }
-
-  return (
-    <>
-    <div><PageDisplay/></div>
-    <button value='next' onClick={change}>next</button>
-    <button value='previous' onClick={change2}>previous</button>
-    </>
-    // <div className="App">
-    //   <h1>Ice Cream Order</h1>
-    //   <br></br>
-    //   <div>
-    //   <div className='box'> {
-    //   iceCreamData.map((icecream) => (
-    //   <div key={icecream.id}> 
-    //     <h3>{icecream.label}</h3>
-
-    //     <input value={icecream.label} type='checkbox' onClick={checkBox}></input>
-    //     <div>{icecream.data.map((test) => (
-    //       <>
-    //       <label>{test.label}</label><input type='checkbox'></input><br/>
-    //       </>
-    //     ))}</div>
-        
-    //   </div>
-    // ))}</div>
-    //   </div>
-    // </div>
-  );
 }
+// print console log of all icecream ordered along with its corresponding addons IF ANY
+console.log("YAY");
+};
+
+
+  // console.log(formData)
+  // const checkBox = (e) => {
+  //   // e.preventDefault();
+  //   setAddOn(true);
+  //   setFormData({...formData, label:e.target.value})
+  // }
+
+  // const PageDisplay = () => {
+  //   if (page===0) {
+  //     return <IcecreamOrder formData={formData} setFormData={setFormData} iceCreamData={iceCreamData}/>
+  //   }
+  // }
+  return (
+<div className="App">
+      <h1>Ice Cream Flavours</h1>
+      <h2>{iceCreamData.map((icecream) => (
+        <div key={icecream.id}>
+          {icecream.label}
+          <input type='checkbox'></input>
+        </div>
+        
+      ))}</h2>
+      <button onClick={orderIceCream}>Order Icecream</button>
+    </div>
+
+);
+}
+// <div className="App">
+//   <h1>Ice Cream Order</h1>
+//   <br></br>
+//   <div>
+//   <div className='box'> {
+//   iceCreamData.map((icecream) => (
+//   <div key={icecream.id}> 
+//     <h3>{icecream.label}</h3>
+
+//     <input value={icecream.label} type='checkbox' onClick={checkBox}></input>
+//     <div>{icecream.data.map((test) => (
+//       <>
+//       <label>{test.label}</label><input type='checkbox'></input><br/>
+//       </>
+//     ))}</div>
+    
+//   </div>
+// ))}</div>
+//   </div>
+// </div>
