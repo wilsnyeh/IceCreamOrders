@@ -1,4 +1,6 @@
 import "./styles.css";
+import { useState, useEffect } from 'react'
+import IcecreamOrder from "./components/IcecreamOrder";
 
 /*
   Custom Icecream order
@@ -79,12 +81,12 @@ const iceCreamData = [
   },
   {
     id: 3,
-    label: "Macha Icecream",
+    label: "Matcha Icecream",
     type: "FLAVOUR",
     data: []
   },
   {
-    id: 3,
+    id: 4,
     label: "Mixed Flavours",
     type: "FLAVOUR",
     data: [
@@ -103,17 +105,75 @@ const iceCreamData = [
 ];
 
 export default function App() {
+  const [formData, setFormData] = useState({
+    id: '',
+    addons: {
+      id:'',
+      label: '',
+      type: '',
+    },
+    label: '',
+  })
+
+  const [addOn, setAddOn] = useState(false)
+  const [page, setPage] = useState(0)
+
   const orderIceCream = () => {
     // print console log of all icecream ordered along with its corresponding addons IF ANY
 
     console.log("YAY");
   };
+  console.log(formData)
+  const checkBox = (e) => {
+    // e.preventDefault();
+    setAddOn(true);
+    setFormData({...formData, label:e.target.value})
+  }
+
+  const PageDisplay = () => {
+    if (page===0) {
+      return <IcecreamOrder formData={formData} setFormData={setFormData} iceCreamData={iceCreamData}/>
+    }
+  }
+  const change = (e) => {
+    e.preventDefault();
+    setPage(page+1)
+  }
+
+    const change2 = (e) => {
+      e.preventDefault();
+      setPage(page-1)}
+    // if (e.target.value === 'next') {
+    //   setPage(page + 1);
+    // } else if (e.target.value === 'previous') {
+    //   setPage(page - 1);
+    // }
 
   return (
-    <div className="App">
-      <h1>Hello CodeSandbox</h1>
-      <h2>Start editing to see some magic happen!</h2>
-      <button onClick={orderIceCream}>Order Icecream</button>
-    </div>
+    <>
+    <div><PageDisplay/></div>
+    <button value='next' onClick={change}>next</button>
+    <button value='previous' onClick={change2}>previous</button>
+    </>
+    // <div className="App">
+    //   <h1>Ice Cream Order</h1>
+    //   <br></br>
+    //   <div>
+    //   <div className='box'> {
+    //   iceCreamData.map((icecream) => (
+    //   <div key={icecream.id}> 
+    //     <h3>{icecream.label}</h3>
+
+    //     <input value={icecream.label} type='checkbox' onClick={checkBox}></input>
+    //     <div>{icecream.data.map((test) => (
+    //       <>
+    //       <label>{test.label}</label><input type='checkbox'></input><br/>
+    //       </>
+    //     ))}</div>
+        
+    //   </div>
+    // ))}</div>
+    //   </div>
+    // </div>
   );
 }
