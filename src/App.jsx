@@ -160,7 +160,8 @@ console.log("YAY");
             <div key={icecream.id}>
           <h2>
             <label>
-              <input type='checkbox' 
+              <input 
+              type='checkbox' 
               name='icecream' 
               value={icecream.id} 
               onChange={(e) => handleIceCreamChange(e, icecream.id)}
@@ -168,13 +169,14 @@ console.log("YAY");
               {icecream.label}
               </label>
               </h2>
-              <div 
-              className={isFlavourChecked(icecream.id) ? 'show-addons' : 'hide-addons'}
-              >
+              <div className={isFlavourChecked(icecream.id) ? 'show-addons' : 'hide-addons'}>
               {icecream.data.map((addons) => 
               <div key={addons.id}>
                 <label>
-                  <input type='checkbox' name='addons' value={addons.id} 
+                  <input 
+                  type='checkbox' 
+                  name='addons' 
+                  value={addons.id} 
                   onChange={(e) => handleAddonChange(e, addons.id)}
                   />
                   {addons.label}
