@@ -114,9 +114,15 @@ console.log("YAY");
     //upon selection - we want to then render the addons for respective flavours
   // when our selections are complete, we want to print our completed order
 
+  //current iteration flavour addons state is not being managed independently; 
+    //when a flavour is selected and addons are exposed, although not all addons are selected
+    //depending on the order of its selection, addon states are acting as one
+    //i.e. strawberry addon1 a[x] b[] - vanilla addon2 a[] b[x] 
+    //will return addon selections a & b for both flavours
+
   const App = () => {
     const [selectIceCreams, setSelectIceCreams] = useState([]);
-    const [selectAddOns, setSelectAddOns] = useState([]);
+    const [selectAddOns, setSelectAddOns] = useState({});
 
     const handleIceCreamChange = (e, icecreamId) => {
       if (e.target.checked) {
@@ -126,30 +132,43 @@ console.log("YAY");
       }
     }
 
-    const handleAddonChange = (e, addonsId) => {
+    const handleAddonChange = (e, icecreamId, addonsId) => {
+      const newAddons = {...selectAddOns};
       if (e.target.checked) {
-        setSelectAddOns([...selectAddOns, addonsId]);
+        if(!newAddons[icecreamId]) {
+          newAddons[icecreamId] = []
+        }
+        newAddons[icecreamId] = [...newAddons[icecreamId], addonsId];
       } else {
-        setSelectAddOns(selectAddOns.filter(id => id !== addonsId));
+        if(newAddons[icecreamId]) {
+          newAddons[icecreamId] = newAddons[icecreamId].filter(id => id !== addonsId)
+        }
       }
+      setSelectAddOns(newAddons);
     }
-
+    //check for addons to be rendered
     const isFlavourChecked = (icecreamId) => {
       return selectIceCreams.includes(icecreamId);
+    }
+
+    //check for addons
+    const isAddOnChecked = (icecreamId, addonsId) => {
+      return selectAddOns[icecreamId] && selectAddOns[icecreamId].includes(addonsId);
     }
 
     const orderIceCream = () => {
       const selectedOrder = selectIceCreams.map(icecreamId => {
         const icecream = iceCreamData.find(item => item.id === icecreamId);
         const addonsForIcecream = icecream.data
-          .filter(addon => selectAddOns.includes(addon.id))
+          .filter((addon) => isAddOnChecked(icecreamId, addon.id))
           .map(addon => addon.label);
-  
-        return [icecream.label, ...addonsForIcecream];
+        return {
+          icecream: icecream.label,
+          addons: addonsForIcecream
+        }
       });
-  
-      console.log('Order Ice Cream:');
-      selectedOrder.forEach(order => console.log(order));
+      console.log('Ice Cream Order:');
+      selectedOrder.forEach(order => console.log(`${order.icecream} addons: ${order.addons.length > 0 ? order.addons.join(', ') : 'none'}`));
     }
 
       return (
@@ -177,7 +196,7 @@ console.log("YAY");
                   type='checkbox' 
                   name='addons' 
                   value={addons.id} 
-                  onChange={(e) => handleAddonChange(e, addons.id)}
+                  onChange={(e) => handleAddonChange(e, icecream.id, addons.id)}
                   />
                   {addons.label}
                 </label>
