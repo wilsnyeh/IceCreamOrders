@@ -1,5 +1,6 @@
 import "./styles.css";
 import React, { useState } from 'react'
+import orderIceCream from "./orderIceCream,jsx";
 
 
 /*
@@ -104,10 +105,10 @@ const iceCreamData = [
   }
 ];
 
-const orderIceCream = () => {
-// print console log of all icecream ordered along with its corresponding addons IF ANY
-console.log("YAY");
-};
+// const orderIceCream = () => {
+// // print console log of all icecream ordered along with its corresponding addons IF ANY
+// console.log("YAY");
+// };
   //we want to render ice cream flavors with checkboxes
   //onchange - manage the state in which flavours are being selected
   //ternary options for flavours selected, if flavours !== true ? null : show addons
@@ -152,24 +153,26 @@ console.log("YAY");
     }
 
     //check for addons
-    const isAddOnChecked = (icecreamId, addonsId) => {
-      return selectAddOns[icecreamId] && selectAddOns[icecreamId].includes(addonsId);
-    }
+    // const isAddOnChecked = (icecreamId, addonsId) => {
+    //   return selectAddOns[icecreamId] && selectAddOns[icecreamId].includes(addonsId);
+    // }
 
-    const orderIceCream = () => {
-      const selectedOrder = selectIceCreams.map(icecreamId => {
-        const icecream = iceCreamData.find(item => item.id === icecreamId);
-        const addonsForIcecream = icecream.data
-          .filter((addon) => isAddOnChecked(icecreamId, addon.id))
-          .map(addon => addon.label);
-        return {
-          icecream: icecream.label,
-          addons: addonsForIcecream
-        }
-      });
-      console.log('Ice Cream Order:');
-      selectedOrder.forEach(order => console.log(`${order.icecream} addons: ${order.addons.length > 0 ? order.addons.join(', ') : 'none'}`));
-    }
+    // const orderIceCream = () => {
+    //   const selectedOrder = selectIceCreams.map(icecreamId => {
+    //     const icecream = iceCreamData.find(item => item.id === icecreamId);
+    //     const addonsForIcecream = icecream.data
+    //       .filter((addon) => isAddOnChecked(icecreamId, addon.id))
+    //       .map(addon => addon.label);
+    //     return {
+    //       icecream: icecream.label,
+    //       addons: addonsForIcecream
+    //     }
+    //   });
+    //   console.log('Ice Cream Order:');
+    //   selectedOrder.forEach(order => console.log(`${order.icecream} addons: ${order.addons.length > 0 ? order.addons.join(', ') : 'none'}`));
+    // }
+
+    // <orderIceCream/>
 
       return (
         <div className="App">
@@ -207,7 +210,7 @@ console.log("YAY");
           ))}
           <br></br>
           </div>
-          <button onClick={orderIceCream}>Order Icecream</button>
+          <button onClick={<orderIceCream/>}>Order Icecream</button>
         </div>
       )
     }

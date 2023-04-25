@@ -1,0 +1,21 @@
+
+const isAddOnChecked = (icecreamId, addonsId, {selectAddOns}) => {
+  return selectAddOns[icecreamId] && selectAddOns[icecreamId].includes(addonsId);
+}
+
+const orderIceCream = ({iceCreamData, selectIceCreams, isAddOnChecked}) => {
+      const selectedOrder = selectIceCreams.map(icecreamId => {
+        const icecream = iceCreamData.find(item => item.id === icecreamId);
+        const addonsForIcecream = icecream.data
+          .filter((addon) => isAddOnChecked(icecreamId, addon.id))
+          .map(addon => addon.label);
+        return {
+          icecream: icecream.label,
+          addons: addonsForIcecream
+        }
+      });
+      console.log('Ice Cream Order:');
+      selectedOrder.forEach(order => console.log(`${order.icecream} addons: ${order.addons.length > 0 ? order.addons.join(', ') : 'none'}`));
+    }
+
+export default orderIceCream
